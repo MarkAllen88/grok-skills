@@ -8,7 +8,7 @@ license: MIT
 
 ## Overview
 
-VeTest Intents (vetest.app) is peer to peer. A maker posts an intent card, a taker clicks Become Taker to open a private room with the maker, and both settle with a hash time-locked contract (HTLC) from their own wallets, so nobody holds anyone else's funds. Clicking Become Taker moves no money: nothing moves until both sides sign the Intent Lock. Cards show no amounts; the maker shares them in the room, which has a lock countdown of about 4 minutes. This skill makes the bot a scout and coach: it finds cards worth a look, checks the deal once the maker shares terms, drafts replies, and hands over the screen. The operator makes every click that commits.
+VeTest Intents (vetest.app) is peer to peer. A maker posts an intent card, a taker clicks Become Taker to open a private room with the maker, and both settle with a hash time-locked contract (HTLC) from their own wallets, so nobody holds anyone else's funds. Clicking Become Taker moves no money: nothing moves until both sides sign the Intent Lock. A card shows the pair with the maker's side first (maker gives, then maker gets), the chain, and the time; only amounts are hidden, and the maker shares them in the room. Opening a room holds the card for the taker for about 5 minutes, after which the maker can release it to other takers. This skill makes the bot a scout and coach: it finds cards worth a look, checks the deal once the maker shares terms, drafts replies, and hands over the screen. The operator makes every click that commits.
 
 **Keywords**: vetest, intents, p2p, htlc, base, crypto, scout, taker
 
@@ -21,7 +21,7 @@ VeTest Intents (vetest.app) is peer to peer. A maker posts an intent card, a tak
 3. **Account.** Use a dedicated VeTest bot account registered as an Agent (Settings, Agent Management, Register as an Agent) and approved by VeTest, shown by a green Agent tag. Never the operator's personal account or an admin or moderator account. If the tag is missing, stop and ask.
 4. **Wallet (only if they want to trade).** A fresh MetaMask wallet that holds only what they will risk, funded on Base with ETH for gas and fees (start with 0.005 to 0.01 ETH) plus the token they give. The operator sets the password and writes the seed words on paper while the bot looks away. Never see, type, or store a password or recovery phrase.
 5. **Scan.** Keep one vetest.app tab in the Chrome profile in use. If a Scheduled maintenance banner shows, only watch. On Premium Intent, list other users' cards under one hour old whose pair, chain, and direction fit. If none fit, name the closest card and why it misses.
-6. **Report.** For each fit: pair, chain, direction, card age, market rate from the operator's source, and the fees they would pay (about 0.001 to 0.0016 ETH per side, charged at Lock and not refunded if the other side never locks). Say the price is unknown until the maker shares amounts.
+6. **Report.** For each fit: pair, chain, direction, card age, market rate from the operator's source, and the fees they would pay (about 0.001 to 0.0016 ETH per side, charged at Lock and not refunded if the other side never locks). Say the price is unknown until the maker shares amounts. If fees would be more than about 10 percent of the maximum trade size, warn before offering the room that a trade this small mostly pays fees.
 7. **Check the deal.** If the operator wants a card, hand them the screen to click Become Taker. When they hand it back, read the maker's amounts, convert to a rate, compare with market and the operator's worst rate after fees, and recommend accept, counter, or decline. Draft the reply; the operator sends it.
 8. **Coach the settlement.** If they go ahead, hand the screen back and coach them through the settlement proposal, the Intent Lock signature, the fee prompts, the lock, and the claim. Then check the received balance together and note fees and gas.
 
@@ -30,6 +30,7 @@ VeTest Intents (vetest.app) is peer to peer. A maker posts an intent card, a tak
 | If | Then |
 | --- | --- |
 | Card is older than one hour, or outside the rules | Skip it |
+| Fees exceed about 10% of the maximum trade size | Warn before offering the room |
 | Maker's rate after fees is worse than the operator's limit | Recommend counter once toward market, else decline |
 | Two price sources disagree by more than a few percent | Stop and ask |
 | A wallet prompt shows the wrong chain or amount, an unlimited approval, or an unexpected contract | Tell the operator to reject it |
